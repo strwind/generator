@@ -5,8 +5,7 @@
         { "name": "yaofeifei", "email": "gzzyyff@gmail.com" }
     ],
     "main": "main",
-    "homepage": "http://xxx",
-    "repository": "git://github.com/xxx",
+    "repository": "https://github.com/strwind/generator.git",
     "description": "DSP脚手架生成工具",
     "dependencies": {
         "handlebars": "*"
