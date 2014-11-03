@@ -24,6 +24,7 @@ PathRef.prototype = {
     /*
      * 添加config配置文件的引用路径
      * @param {string} modName 模块名字
+     * @public
      */
     addCfgRef: function (modName) {
         var me = this;
@@ -46,6 +47,7 @@ PathRef.prototype = {
     /*
      * 添加css文件的引用路径
      * @param {string} modName 模块名字 一般css的名字和模块名字一样
+     * @public
      */
     addCssRef: function (modName) {
         var me = this;

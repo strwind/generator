@@ -24,6 +24,7 @@ FileOperator.prototype = {
      * @param {string} tpl 模板文件路径 
      * @param {string} tplData 替换模板中变量的数据对象 
      * @param {Function} callback 回调函数 
+     * @public
      */
     createFile: function (filePath, tpl, tplData, callback) {
         var me = this;
@@ -59,6 +60,7 @@ FileOperator.prototype = {
      * 读取一个文件，以数组的形式返回，文件中的每一行为数组的一项
      * @param {string} filePath 文件路径
      * @param {Function} callback 回调函数
+     * @public
      */
     readFileByArray: function (filePath, callback) {
         var option = {
