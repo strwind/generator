@@ -11,7 +11,7 @@
 ###详细说明
 生成模块和UI控件其实做了下面三件事情
 <ol>
-    <li>生成模块所需要的文件，包含所需的*tpl*、*css*、*js*、*config* 四类文件</li>
+    <li>生成模块所需要的文件，包含所需的tpl、css、js、config 四类文件</li>
     <li>解析生成的模板文件</li>
     <li>添加生成文件的引用路径</li>
 </ol>
@@ -51,10 +51,11 @@ var config = {
     //'detail': {}
 };
 </pre>
-<p>配置中common为公共配置，现在只包含模块名称；</p>
-<p>其他为任务配置， 目前常见的模块类型就**form**、**list**和**detail**三种；</p>
+<p>配置中common为公共配置；</p>
+<p>其他为任务配置，目前常见的模块类型有form、list和detail三种；</p>
+<p>将来还有其他类型时，在config加入一个配置，并在tpl目录下创建好相对应的同名模板即可；</>
 <p>假如只想生成其中一种类型, 那只需要把其他的注释掉即可；</p>
-<p>当单个任务task中的*actionName*、*tplFileName*、*viewName*配置为空时，默认随机生成一个。</p>
+<p>当单个任务task中的*actionName*、*tplFileName*、*viewName*配置为空时，默认随机生成一个name。</p>
 
 
 2、在目录**tool/generator**下运行命令<code>node main mod</code>
