@@ -46,15 +46,22 @@ var config = {
         "actionName": "DemoForm", //action名称
         "tplFileName": "form",  //tpl.html文件名称
         "viewName": "DemoForm", //可选，view的名称 默认和actionName一致
-    }
+    },
+    //'list': {},
+    //'detail': {}
 };
 </pre>
+配置中common为公共配置，现在只包含模块名称；
+其他为任务配置， 目前常见的模块类型就**form**、**list**和**detail**三种；
+假如只想生成其中一种类型, 那只需要把其他的注释掉即可；
+当单个任务task中的*actionName*、*tplFileName*、*viewName*配置为空时，默认随机生成一个。
 
-2、在**tool/generator**目录下运行命令<code>node main mod</code>
+
+2、在目录**tool/generator**下运行命令<code>node main mod</code>
 
 **result:**
 
-在**src/biz**将会生成我们所需的开发模块文件,每个文件中已经写好了代码结构和常用方法
+在目录**src/biz**下将会生成我们所需的开发模块文件,每个文件中已经写好了代码结构和常用方法
 <pre>
 -demo
     -css
