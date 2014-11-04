@@ -75,7 +75,7 @@ var config = {
 demo.css成功在main.css中添加了应用路径，引用语句为<code>@import '../biz/demo/css/demo.less';</code>
 config.js成功在moduleConfig.js中添加了应用路径，引用语句为<code>require('biz/demo/config');</code>
 
-浏览器中打开<code>http://dsptest.baidu.com:8848/main.html#/demo/create </code>即可看到写好的模块
+浏览器中打开<code>http://dsptest.baidu.com:8848/main.html#/demo/form </code>即可看到写好的模块
 
 **ps:** **config/userConfig.js**文件为用户信息，配置好后一般不用更改
 
