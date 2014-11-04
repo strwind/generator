@@ -2,7 +2,7 @@
 /**
  * @file 生成模板入口
  * @author yaofeifei(yaofeifei@baidu.com）
- * @date $Date: 2014-10-30 
+ * @date 2014-10-30 
  */
 /**
  * 解析参数。作为命令行执行的入口

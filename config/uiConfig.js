@@ -2,7 +2,7 @@
 /**
  * @file ui控件信息配置
  * @author yaofeifei(yaofeifei@baidu.com）
- * @date $Date: 2014-10-30 
+ * @date 2014-10-30 
  */
 
 var config = {

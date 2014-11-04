@@ -143,7 +143,7 @@ define(function (require) {
         /**
          * 表单提交时的跨控件验证
          * @protected
-         * @return {Boolean} true/false
+         * @return {boolean} true/false
          */
         associateValidate: function () {
             //MUST RETURN TRUE OR FALSE!

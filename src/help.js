@@ -2,7 +2,7 @@
 /**
  * @file 帮助文件
  * @author yaofeifei(yaofeifei@baidu.com）
- * @date $Date: 2014-10-30 
+ * @date 2014-10-30 
  */
 
 var help = {

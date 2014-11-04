@@ -2,7 +2,7 @@
 /**
  * @file 常用操作util
  * @author yaofeifei(yaofeifei@baidu.com）
- * @date $Date: 2014-10-30 
+ * @date 2014-10-30 
  */
 var fs = require('fs');
 var path = require('path');
