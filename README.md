@@ -72,8 +72,8 @@ var config = {
     -DemoForm.js
 </pre>
 
-demo.css成功在main.css中添加了应用路径，引用语句为<code>@import '../biz/demo/css/demo.less';</code>
-config.js成功在moduleConfig.js中添加了应用路径，引用语句为<code>require('biz/demo/config');</code>
+<p>demo.css成功在main.css中添加了应用路径，引用语句为<code>@import '../biz/demo/css/demo.less';</code></p>
+<p>config.js成功在moduleConfig.js中添加了应用路径，引用语句为<code>require('biz/demo/config');</code></p>
 
 浏览器中打开<code>http://dsptest.baidu.com:8848/main.html#/demo/form </code>即可看到写好的模块
 
