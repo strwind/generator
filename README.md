@@ -1,5 +1,6 @@
 
 #DSP 脚手架工具
+该工具能让我们从开发时繁琐的文件创建、引用、配置中解放人力，把更多的精力关注到业务逻辑上
 
 ### 生成模块命令       
 <code>node main mod</code>
@@ -7,7 +8,7 @@
 ### 生成UI控件命令  
 <code>node main ui</code>
 
-###生成模块和UI控件
+###详细说明
 生成模块和UI控件其实做了下面三件事情
 <ol>
     <li>生成模块所需要的文件，包含所需的*tpl*、*css*、*js*、*config* 四类文件</li>
@@ -18,17 +19,58 @@
 ###配置
 配置文件在**config**文件夹下面
 <ul>
-    <li>modConfig  ———模块配置文件</li>
-    <li>uiConfig   ———UI控件配置文件</li>
-    <li>userConfig ———用户信息配置文件</li>
+    <li>modConfig.js  ———模块配置文件</li>
+    <li>uiConfig.js   ———UI控件配置文件</li>
+    <li>userConfig.js ———用户信息配置文件</li>
 </ul>
 
 ###模板
-配置文件在**tpl**文件夹下面
+模板文件在**tpl**文件夹下面
 <ul>
     <li>mod  ———模块的模板文件夹</li>
     <li>ui   ———UI控件的模板文件夹</li>
 </ul>
+
+###Quick Start
+
+只需两步即可完成快速创建模块
+
+1、例如在**config/modConfig.js**中进行了如下配置
+<pre>
+var config = {
+    'common': {
+        "modName": "demo",  //模块名称
+        "hasCss": true     //可选，是否需要css文件，默认为true
+    },
+    'form': {
+        "actionName": "DemoForm", //action名称
+        "tplFileName": "form",  //tpl.html文件名称
+        "viewName": "DemoForm", //可选，view的名称 默认和actionName一致
+    }
+};
+</pre>
+
+2、在**tool/generator**目录下运行命令<code>node main mod</code>
+
+**result:**
+
+在**src/biz**将会生成我们所需的开发模块文件,每个文件中已经写好了代码结构和常用方法
+<pre>
+-demo
+    -css
+        -demo.css
+    -tpl
+        -form.tpl.html
+    -config.js
+    -DemoForm.js
+</pre>
+
+demo.css成功在main.css中添加了应用路径，引用语句为<code>@import '../biz/demo/css/demo.less';</code>
+config.js成功在moduleConfig.js中添加了应用路径，引用语句为<code>require('biz/demo/config');</code>
+
+浏览器中打开<code>http://dsptest.baidu.com:8848/main.html#/demo/create </code>即可看到写好的模块
+
+**ps:** **config/userConfig.js**文件为用户信息，配置好后一般不用更改
 
 ###TODO
 <ol>
