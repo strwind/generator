@@ -6,52 +6,30 @@
  */
 var fs = require('fs');
 var path = require('path');
-var modCfg = require('../config/modConfig');
+var modCfg = require('./config').module;
 
 var util = {
-    
-    /**
-     * 获取项目src路径
-     * @return {string}
-     */
-    getSrcPath: function () {
-        return path.join(process.cwd(), '../../src');
-    },
-    
-    /**
-     * 获取项目biz路径
-     * @return {string}
-     */
-    getBizPath: function () {
-        return path.join(this.getSrcPath(), '/biz');
-    },
-    
+
     /**
      * 获取新建的模块路径
      * @return {string}
      */
-    getModPath: function () {
-        return path.join(this.getBizPath(), modCfg.common.modName);
+    getModPath: function (modName) {
+        modName = modName || modCfg.common.modName;
+        return path.join(modCfg.path.bizPath, modName);
     },
-    
-    /**
-     * 获取模板路径
-     * @return {string}
-     */
-    getModTplPath: function () {
-        return path.join(process.cwd(), '/tpl/mod/');
-    },
-    
+
     /*
      * 扩展对象
      * @param {Object} ObjA
      * @param {Object} ObjB
+     * @param {boolean=} force ObjB是否强行覆盖ObjA
      * @return {Object} ObjA
      */
-    extend: function (objA, objB) {
+    extend: function (objA, objB, force) {
         for(var key in objB) {
-            if (!objA.hasOwnProperty(key)) {
-                objA[key] = objB[key];
+            if (!objA.hasOwnProperty(key) || force) {
+                objB[key] && (objA[key] = objB[key]);
             }
         }
         return objA;
@@ -94,10 +72,11 @@ var util = {
     
     /*
      * 获取格式化后的日期  比如2014-11-03 
+     * @param {Date=} date 日期对象 
      * @return {string}
      */
-    getFormatDate: function () {
-        var date = new Date();
+    getFormatDate: function (date) {
+        date = date || new Date();
         var year = date.getFullYear();
         var month = date.getMonth();
         month = parseInt(month, 10) + 1;

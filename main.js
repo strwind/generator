@@ -26,12 +26,30 @@ exports.parse = function (args) {
     }
 
     var mainCommand = args[0];
+    var moduleName = args[1];
+    var taskName = args[2];
     mainCommand = mainCommand.toLowerCase();
+    var Mod = require('./src/Mod.js');
     if (mainCommand === 'mod') {
-       var Mod = require('./src/Mod.js');
-       var Mod = new Mod();
-       Mod.init();
+        new Mod(moduleName).init();
     }
+    
+    switch (mainCommand) {
+        case 'addjs':
+            new Mod(moduleName).addJs(taskName);
+            break;
+        case 'addconfig':
+            new Mod(moduleName).addConfig();
+            break;
+        case 'addcss':
+            new Mod(moduleName).addCss();
+            break;
+        case 'addhtml':
+            new Mod(moduleName).addHtml(taskName);
+            break;
+    }
+    
+    
     if (mainCommand === 'ui') {
        //TODO
        console.log('待开发');

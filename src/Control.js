@@ -1,39 +1,39 @@
 
 /**
- * @file 生成ER模块或指定action
+ * @file 生成ER模块或指定Control 控件
  * @author yaofeifei(yaofeifei@baidu.com）
  * @date 2014-10-30 
  */
-var fs = require('fs');
-var path = require('path');
-var util = require('./util');
-var cfgMag = require('./configManager');
-var modCfg = cfgMag.module;
-var FileOperator = require('./FileOperator');
+
+var fs = reqControlre('fs');
+var path = reqControlre('path');
+var util = reqControlre('./util');
+var cfgMag = reqControlre('./configManager');
+var ctrCfg = cfgMag.Control;
+var FileOperator = reqControlre('./FileOperator');
 var fileOpr = new FileOperator();
-var PathRef = require('./PathRef');
+var PathRef = reqControlre('./PathRef');
 var pathRef = new PathRef();
 
 /*
  * @constructor
- * @param {string=} modName 模块名称
+ * @param {string=} ctrName 模块名称
  */
-function Mod(modName) {
-    this.modName = modName || modCfg.common.modName;
-    this.bizPath = modCfg.path.bizPath;
-    this.tplPath = modCfg.path.tplPath;
-    this.modPath = util.getModPath(modName);
-    this.modCssPath = path.join(this.modPath, '/css');
-    this.modHtmlPath = path.join(this.modPath, '/tpl');
-    this.taskCollection = cfgMag.getModTaskCollection(modName);
+function Control(ctrName) {
+    this.ctrName = ctrName || ctrCfg.common.ctrName;
+    this.bizPath = ctrCfg.path.bizPath;
+    this.tplPath = ctrCfg.path.tplPath;
+    this.ControlPath = util.getControlPath(ctrName);
+    this.ControlCssPath = path.join(this.ControlPath, '/css');
+    this.ControlHtmlPath = path.join(this.ControlPath, '/tpl');
+    this.taskCollection = cfgMag.getTaskCollection(ctrName);
 }
 
-Mod.prototype = {
+Control.prototype = {
     
     init: function () {
         var me = this;
-        var taskArr = Object.keys(modCfg).slice(2);
-        taskArr = taskArr.length ? task : cfgMag.defaultModTaskArr;
+        var taskArr = Object.keys(ctrCfg).slice(2) || me.defaultTaskArr;
         taskArr.forEach(function (taskName, index) {
             me.addJs(taskName);
             me.addHtml(taskName);
@@ -52,10 +52,10 @@ Mod.prototype = {
      * @public
      */
     addConfig: function (callback) {
-        fileOpr.insureDir(this.modPath);
+        fileOpr.insureDir(this.ControlPath);
         var filename = 'config.js';
         var tplname = 'config.js';
-        var fileLocation = path.join(this.modPath, filename);
+        var fileLocation = path.join(this.ControlPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile('config', fileLocation, tplLocation, callback);
     },
@@ -67,11 +67,11 @@ Mod.prototype = {
      * @public
      */
     addJs: function (taskName, callback) {
-        fileOpr.insureDir(this.modPath);
+        fileOpr.insureDir(this.ControlPath);
         var task = this.taskCollection[taskName];
         var filename = task.actionName + '.js';
         var tplname = taskName + '.js';
-        var fileLocation = path.join(this.modPath, filename);
+        var fileLocation = path.join(this.ControlPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(taskName, fileLocation, tplLocation, callback);
     },
@@ -82,11 +82,11 @@ Mod.prototype = {
      * @public
      */
     addCss: function (callback) {
-        fileOpr.insureDir(this.modPath);
-        fileOpr.insureDir(this.modCssPath);
-        var filename = this.modName + '.less';
+        fileOpr.insureDir(this.ControlPath);
+        fileOpr.insureDir(this.ControlCssPath);
+        var filename = this.ctrName + '.less';
         var tplname = 'action.less';
-        var fileLocation = path.join(this.modCssPath, filename);
+        var fileLocation = path.join(this.ControlCssPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile('css', fileLocation, tplLocation, callback);
     },
@@ -98,11 +98,11 @@ Mod.prototype = {
      * @public
      */
     addHtml: function (taskName, callback) {
-        fileOpr.insureDir(this.modPath);
-        fileOpr.insureDir(this.modHtmlPath);
+        fileOpr.insureDir(this.ControlPath);
+        fileOpr.insureDir(this.ControlHtmlPath);
         var filename = taskName + '.tpl.html';
         var tplname = taskName + '.html';
-        var fileLocation = path.join(this.modHtmlPath, filename);
+        var fileLocation = path.join(this.ControlHtmlPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(taskName, fileLocation, tplLocation, callback);
     },
@@ -129,8 +129,8 @@ Mod.prototype = {
      * @public
      */
     addCfgRef: function () {
-        var target = modCfg.path.jsRefTargetPath;
-        var content = '    require(\'biz/'+ this.modName +'/config\');';
+        var target = ctrCfg.path.jsRefTargetPath;
+        var content = '    reqControlre(\'biz/'+ this.ctrName +'/config\');';
         var line = -2;
         pathRef.addRef(target, content, line);
     },
@@ -140,11 +140,11 @@ Mod.prototype = {
      * @public
      */
     addCssRef: function () {
-        var target = modCfg.path.cssRefTargetPath;
-        var content = '@import \'../biz/' + this.modName + '/css/' + this.modName + '.less\';';
+        var target = ctrCfg.path.cssRefTargetPath;
+        var content = '@import \'../biz/' + this.ctrName + '/css/' + this.ctrName + '.less\';';
         var line = -1;
         pathRef.addRef(target, content, line);
     }
 };
 
-module.exports = exports = Mod;
+module.exports = exports = Control;

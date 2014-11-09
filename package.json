@@ -1,13 +1,21 @@
 {
-    "name": "generator",
-    "version": "1.0.0",
+    "name": "egen",
+    "version": "0.0.1",
     "contributors": [
         { "name": "yaofeifei", "email": "gzzyyff@gmail.com" }
     ],
-    "main": "main",
+    "main": "main.js",
     "repository": "https://github.com/strwind/generator.git",
-    "description": "DSP脚手架生成工具",
+    "description": "This is generator about module and control!",
     "dependencies": {
         "handlebars": "*"
-    }
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "generator"
+    ],
+    "author": "yaofeifei",
+    "license": "MTC"
 }

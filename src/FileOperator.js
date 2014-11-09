@@ -22,11 +22,11 @@ FileOperator.prototype = {
      * 生成单个文件
      * @param {string} filePath 写入目标文件路径 
      * @param {string} tpl 模板文件路径 
-     * @param {string} tplData 替换模板中变量的数据对象 
+     * @param {string} parseData 替换模板中变量的数据对象 
      * @param {Function} callback 回调函数 
      * @public
      */
-    createFile: function (filePath, tpl, tplData, callback) {
+    createFile: function (filePath, tpl, parseData, callback) {
         var me = this;
         if (fs.existsSync(filePath)) {
             console.log("文件已存在，未重新生成：" + filePath);
@@ -44,7 +44,7 @@ FileOperator.prototype = {
             if (err) {
                 throw err;
             }
-            content = tplParser.compile(content, tplData);
+            content = tplParser.compile(content, parseData);
             fs.writeFile(filePath, content, function (err, data) {
                 if (err) {
                     throw err;
@@ -75,6 +75,16 @@ FileOperator.prototype = {
             callback(null, arr);
         });
     },
+    
+    /*
+     * 确保创建了相应的目录
+     * @param {string} path
+     */
+    insureDir: function (path) {
+        if (!fs.existsSync(path)) {
+            fs.mkdirSync(path);
+        }
+    }
 };
 
 module.exports = exports = FileOperator;
