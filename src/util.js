@@ -4,21 +4,8 @@
  * @author yaofeifei(yaofeifei@baidu.com）
  * @date 2014-10-30 
  */
-var fs = require('fs');
-var path = require('path');
-var modCfg = require('./config').module;
 
 var util = {
-
-    /**
-     * 获取新建的模块路径
-     * @return {string}
-     */
-    getModPath: function (modName) {
-        modName = modName || modCfg.common.modName;
-        return path.join(modCfg.path.bizPath, modName);
-    },
-
     /*
      * 扩展对象
      * @param {Object} ObjA
@@ -88,6 +75,19 @@ var util = {
             day = '0' + day;
         }
         return year + '-' + month + '-' + day;
+    },
+    
+    /*
+     * 去除引号
+     * @param {string} str 
+     * @return {string} str
+     */
+    clearQuotes: function (str) {
+        if (!str) {
+            return str;
+        }
+        var re = /[''""]/g;
+        return str.replace(re, '');
     }
     
 };

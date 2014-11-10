@@ -1,6 +1,6 @@
 {
     "name": "egen",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "contributors": [
         { "name": "yaofeifei", "email": "gzzyyff@gmail.com" }
     ],
@@ -10,11 +10,11 @@
     "dependencies": {
         "handlebars": "*"
     },
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+    "bin": {
+        "egen": "./bin/egen-cli"
     },
     "keywords": [
-      "generator"
+        "generator"
     ],
     "author": "yaofeifei",
     "license": "MTC"

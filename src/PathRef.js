@@ -37,6 +37,9 @@ PathRef.prototype = {
             if (line < 0) {
                 line = dataArr.length + (line + 1);
             }
+            else {
+                line -= 1;
+            }
             dataArr.splice(line, 0, content);
             fs.writeFile(target, dataArr.join('\n'), function (err, data) {
                 console.log('添加路径成功, 在文件%s中第%s行', target, line + 1);

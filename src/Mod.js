@@ -1,14 +1,12 @@
 
 /**
- * @file 生成ER模块或指定action
+ * @file 生成action模块
  * @author yaofeifei(yaofeifei@baidu.com）
  * @date 2014-10-30 
  */
-var fs = require('fs');
 var path = require('path');
-var util = require('./util');
-var cfgMag = require('./configManager');
-var modCfg = cfgMag.module;
+var cfgMgr = require('./configManager');
+var modCfg = cfgMgr.module;
 var FileOperator = require('./FileOperator');
 var fileOpr = new FileOperator();
 var PathRef = require('./PathRef');
@@ -16,32 +14,36 @@ var pathRef = new PathRef();
 
 /*
  * @constructor
- * @param {string=} modName 模块名称
+ * @param {string} modName 模块名称
  */
 function Mod(modName) {
-    this.modName = modName || modCfg.common.modName;
-    this.bizPath = modCfg.path.bizPath;
-    this.tplPath = modCfg.path.tplPath;
-    this.modPath = util.getModPath(modName);
+    this.modName = modName;
+    this.bizPath = modCfg.bizPath;
+    this.tplPath = modCfg.tplPath;
+    this.modPath = path.join(this.bizPath, modName);
     this.modCssPath = path.join(this.modPath, '/css');
     this.modHtmlPath = path.join(this.modPath, '/tpl');
-    this.taskCollection = cfgMag.getModTaskCollection(modName);
+    this.jsRefTargetPath = modCfg.jsRefTargetPath;
+    this.cssRefTargetPath = modCfg.cssRefTargetPath;
+    this.taskList = cfgMgr.defaultModTaskList;
+    this.taskCollection = cfgMgr.getModTaskCollection(modName);
 }
 
 Mod.prototype = {
-    
+    /*
+     * 初始入口
+     * @public
+     */
     init: function () {
         var me = this;
-        var taskArr = Object.keys(modCfg).slice(2);
-        taskArr = taskArr.length ? task : cfgMag.defaultModTaskArr;
-        taskArr.forEach(function (taskName, index) {
+        me.taskList.forEach(function (taskName, index) {
             me.addJs(taskName);
             me.addHtml(taskName);
         });
-        this.addConfig(function () {
+        me.addConfig(function () {
             me.addCfgRef();
         });
-        this.addCss(function () {
+        me.addCss(function () {
             me.addCssRef();
         });
     },
@@ -129,7 +131,7 @@ Mod.prototype = {
      * @public
      */
     addCfgRef: function () {
-        var target = modCfg.path.jsRefTargetPath;
+        var target = this.jsRefTargetPath;
         var content = '    require(\'biz/'+ this.modName +'/config\');';
         var line = -2;
         pathRef.addRef(target, content, line);
@@ -140,7 +142,7 @@ Mod.prototype = {
      * @public
      */
     addCssRef: function () {
-        var target = modCfg.path.cssRefTargetPath;
+        var target = this.cssRefTargetPath;
         var content = '@import \'../biz/' + this.modName + '/css/' + this.modName + '.less\';';
         var line = -1;
         pathRef.addRef(target, content, line);

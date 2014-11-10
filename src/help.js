@@ -12,7 +12,7 @@ var help = {
     },
     
     dumpVersion: function () {
-        console.log('version --0.9');
+        console.log('version --0.0.1');
     }
 };
 

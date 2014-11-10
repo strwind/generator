@@ -1,79 +1,62 @@
 
 /**
- * @file 生成ER模块或指定Control 控件
+ * @file 生成Control 控件
  * @author yaofeifei(yaofeifei@baidu.com）
  * @date 2014-10-30 
  */
-
-var fs = reqControlre('fs');
-var path = reqControlre('path');
-var util = reqControlre('./util');
-var cfgMag = reqControlre('./configManager');
-var ctrCfg = cfgMag.Control;
-var FileOperator = reqControlre('./FileOperator');
+var path = require('path');
+var cfgMgr = require('./configManager');
+var ctrCfg = cfgMgr.control;
+var FileOperator = require('./FileOperator');
 var fileOpr = new FileOperator();
-var PathRef = reqControlre('./PathRef');
+var PathRef = require('./PathRef');
 var pathRef = new PathRef();
 
 /*
  * @constructor
- * @param {string=} ctrName 模块名称
+ * @param {string} ctrName 控件名称
+ * @param {string=} ctrSupName 控件父类名称
  */
-function Control(ctrName) {
-    this.ctrName = ctrName || ctrCfg.common.ctrName;
-    this.bizPath = ctrCfg.path.bizPath;
-    this.tplPath = ctrCfg.path.tplPath;
-    this.ControlPath = util.getControlPath(ctrName);
-    this.ControlCssPath = path.join(this.ControlPath, '/css');
-    this.ControlHtmlPath = path.join(this.ControlPath, '/tpl');
-    this.taskCollection = cfgMag.getTaskCollection(ctrName);
+function Control(ctrName, ctrSupName) {
+    this.bizPath = ctrCfg.bizPath;
+    this.tplPath = ctrCfg.tplPath;
+    this.demoPath = ctrCfg.demoPath;
+    this.cssRefTargetPath = ctrCfg.cssRefTargetPath;
+    this.demoRefTargetPath = ctrCfg.demoRefTargetPath;
+    this.ctrCssPath = path.join(this.bizPath, '/css');
+    this.ctrHtmlPath = path.join(this.bizPath, '/tpl');
+    this.task = cfgMgr.getCtrTask(ctrName, ctrSupName);
 }
 
 Control.prototype = {
-    
-    init: function () {
-        var me = this;
-        var taskArr = Object.keys(ctrCfg).slice(2) || me.defaultTaskArr;
-        taskArr.forEach(function (taskName, index) {
-            me.addJs(taskName);
-            me.addHtml(taskName);
-        });
-        this.addConfig(function () {
-            me.addCfgRef();
-        });
-        this.addCss(function () {
-            me.addCssRef();
-        });
-    },
-    
     /*
-     * 创建一个config文件
-     * @param {Function=} callback 回调函数
+     * 初始入口
      * @public
      */
-    addConfig: function (callback) {
-        fileOpr.insureDir(this.ControlPath);
-        var filename = 'config.js';
-        var tplname = 'config.js';
-        var fileLocation = path.join(this.ControlPath, filename);
-        var tplLocation = path.join(this.tplPath, tplname);
-        this.genFile('config', fileLocation, tplLocation, callback);
+    init: function () {
+        var me = this;
+        me.addJs();
+        me.addHtml();
+        me.addCss(function () {
+            me.addCssRef();
+        });
+        me.addDemo(function () {
+            me.addDemoRef();
+        });
     },
     
     /*
      * 创建一个js文件 
-     * @param {string} taskName 任务名
      * @param {Function=} callback 回调函数
      * @public
      */
-    addJs: function (taskName, callback) {
-        fileOpr.insureDir(this.ControlPath);
-        var task = this.taskCollection[taskName];
-        var filename = task.actionName + '.js';
-        var tplname = taskName + '.js';
-        var fileLocation = path.join(this.ControlPath, filename);
+    addJs: function (callback) {
+        fileOpr.insureDir(this.bizPath);
+        var filename = this.task.className + '.js';
+        var tplname = 'XControl.js';
+        var fileLocation = path.join(this.bizPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
-        this.genFile(taskName, fileLocation, tplLocation, callback);
+        this.genFile(fileLocation, tplLocation, callback);
     },
     
      /*
@@ -82,40 +65,53 @@ Control.prototype = {
      * @public
      */
     addCss: function (callback) {
-        fileOpr.insureDir(this.ControlPath);
-        fileOpr.insureDir(this.ControlCssPath);
-        var filename = this.ctrName + '.less';
-        var tplname = 'action.less';
-        var fileLocation = path.join(this.ControlCssPath, filename);
+        fileOpr.insureDir(this.bizPath);
+        fileOpr.insureDir(this.ctrCssPath);
+        var filename = this.task.cssFileName + '.less';
+        var tplname = 'XControl.less';
+        var fileLocation = path.join(this.ctrCssPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
-        this.genFile('css', fileLocation, tplLocation, callback);
+        this.genFile(fileLocation, tplLocation, callback);
     },
     
     /*
      * 创建一个html文件 
-     * @param {string} taskName 任务名
      * @param {Function=} callback 回调函数
      * @public
      */
-    addHtml: function (taskName, callback) {
-        fileOpr.insureDir(this.ControlPath);
-        fileOpr.insureDir(this.ControlHtmlPath);
-        var filename = taskName + '.tpl.html';
-        var tplname = taskName + '.html';
-        var fileLocation = path.join(this.ControlHtmlPath, filename);
+    addHtml: function (callback) {
+        fileOpr.insureDir(this.bizPath);
+        fileOpr.insureDir(this.ctrHtmlPath);
+        var filename = this.task.className + '.html';
+        var tplname = 'XControl.html';
+        var fileLocation = path.join(this.ctrHtmlPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
-        this.genFile(taskName, fileLocation, tplLocation, callback);
+        this.genFile(fileLocation, tplLocation, callback);
+    },
+    
+    /*
+     * 创建一个DEMO文件 
+     * @param {Function=} callback 回调函数
+     * @public
+     */
+    addDemo: function (callback) {
+        fileOpr.insureDir(this.demoPath);
+        var filename = this.task.demoFileName + '.html';
+        var tplname = 'ui.XControl.html';
+        var fileLocation = path.join(this.demoPath, filename);
+        var tplLocation = path.join(this.tplPath, tplname);
+        this.genFile(fileLocation, tplLocation, callback);
     },
     
     /*
      * 创建一个文件 
-     * @param {string} filename 文件名称
-     * @param {string} tplname 模板名称
+     * @param {string} fileLocation 文件名称
+     * @param {string} tplLocation 模板名称
      * @param {string=} type 文件类型
      * @public
      */
-    genFile: function (taskName, fileLocation, tplLocation, callback) {
-        var parseData = this.taskCollection[taskName];
+    genFile: function (fileLocation, tplLocation, callback) {
+        var parseData = this.task;
         fileOpr.createFile(fileLocation, tplLocation, parseData, function (err) {
             if (err) {
                 throw err;
@@ -125,24 +121,29 @@ Control.prototype = {
     },
     
     /*
-     * 添加配置的引用
-     * @public
-     */
-    addCfgRef: function () {
-        var target = ctrCfg.path.jsRefTargetPath;
-        var content = '    reqControlre(\'biz/'+ this.ctrName +'/config\');';
-        var line = -2;
-        pathRef.addRef(target, content, line);
-    },
-    
-    /*
      * 添加css的引用
      * @public
      */
     addCssRef: function () {
-        var target = ctrCfg.path.cssRefTargetPath;
-        var content = '@import \'../biz/' + this.ctrName + '/css/' + this.ctrName + '.less\';';
+        var target = this.cssRefTargetPath;
+        var content = '@import \'./' + this.task.cssFileName + '.less\';';
         var line = -1;
+        pathRef.addRef(target, content, line);
+    },
+    /*
+     * 添加demo的引用
+     * @public
+     */
+    addDemoRef: function () {
+        var target = this.demoRefTargetPath;
+        var content = [
+            '            {',
+            '                id: ' + Date.now() + ',',
+            '                text: ' + '\'' + this.task.demoFileName + '\'',
+            '            },'
+        ];
+        content = content.join('\n');
+        var line = 329;
         pathRef.addRef(target, content, line);
     }
 };
