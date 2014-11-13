@@ -23,7 +23,7 @@ function Mod(modName) {
     this.modPath = path.join(this.bizPath, modName);
     this.modCssPath = path.join(this.modPath, '/css');
     this.modHtmlPath = path.join(this.modPath, '/tpl');
-    this.jsRefTargetPath = modCfg.jsRefTargetPath;
+    this.configRefTargetPath = modCfg.configRefTargetPath;
     this.cssRefTargetPath = modCfg.cssRefTargetPath;
     this.taskList = cfgMgr.defaultModTaskList;
     this.taskCollection = cfgMgr.getModTaskCollection(modName);
@@ -131,7 +131,7 @@ Mod.prototype = {
      * @public
      */
     addCfgRef: function () {
-        var target = this.jsRefTargetPath;
+        var target = this.configRefTargetPath;
         var content = '    require(\'biz/'+ this.modName +'/config\');';
         var line = -2;
         pathRef.addRef(target, content, line);

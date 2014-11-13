@@ -55,8 +55,6 @@ exports.parse = function (args) {
             case 'addjs':
                 mod.addJs(taskName);
                 break;
-            case 'addconfig':
-                mod.addConfig();
                 break;
             case 'addcss':
                 mod.addCss();
@@ -64,6 +62,8 @@ exports.parse = function (args) {
             case 'addhtml':
                 mod.addHtml(taskName);
                 break;
+            case 'addconfig':
+                mod.addConfig();
             default:
                 mod.init();
         }

@@ -72,7 +72,7 @@ var configManager = {
     /*
      * 获取控件默认单个任务的配置
      * @param {string} ctrName 控件名字
-     * @param {string} ctrSupName 控件父类名称
+     * @param {string=} ctrSupName 控件父类名称
      * @return {Object} task 任务的详细配置
      *          task.userName 用户名称
      *          task.email 用户邮箱
@@ -92,7 +92,7 @@ var configManager = {
             'createDate': util.getFormatDate(),
             'ctrName': ctrName,
             'className': ctrName,
-            'superClassName': ctrSupName,
+            'superClassName': ctrSupName || 'Control',
             'viewName': ctrName,
             'type': ctrName.toLowerCase(), 
             'cssFileName': 'ui-' + ctrName.toLowerCase(),
