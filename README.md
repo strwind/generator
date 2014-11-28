@@ -14,6 +14,7 @@
 <p><code>egen mod [模块名]</code>    --生成模块所有所需文件</p>
 
 #####二级子命令
+<p><code>egen mod addtask [模块名] [任务名]</code>    --生成模块指定任务的所有文件</p>
 <p><code>egen mod addjs [模块名] [任务名]</code>    --生成模块所需的js文件</p>
 <p><code>egen mod addcss [模块名]</code>    --生成模块所需的less文件</p>
 <p><code>egen mod addhtml [模块名] [任务名]</code>    --生成模块所需的tpl文件</p>
@@ -33,7 +34,7 @@
 ###详细说明
 生成模块和UI控件其实做了下面三件事情
 <ol>
-    <li>生成模块或控件所需要的文件，包含所需的*tpl*、*css*、*js*、*config*、*demo* 几类文件</li>
+    <li>生成模块或控件所需要的文件，包含所需的tpl、css、js、config、demo 几类文件</li>
     <li>解析生成的模板文件</li>
     <li>添加生成文件的引用路径</li>
 </ol>
@@ -47,53 +48,53 @@
 
 #####config配置文件
 <pre>
-    var path = require('path');
-    var cwd = process.cwd();
-    var join = path.join;
-    var config = {
-        
-        /*
-         * 用户信息配置
-         * userName 用户姓名
-         * email 用户邮箱
-         */
-        'userInfo': {
-            "userName": "yaofeifei",
-            "email": "yaofeifei@baidu.com"
-        },
-        
-        /*
-         * 模块配置
-         * bizPath 生成模块代码的路径
-         * tplPath 模块的模板所在路径
-         * cssRefTargetPath 模块的css文件需要添加引用的路径
-         * configRefTargetPath 模块的config文件需要添加的引用路径
-         */
-        'module': {
-            'bizPath': join(cwd, 'src/biz'),
-            'tplPath': join(cwd, 'egenConfig/tpl/mod'),
-            'cssRefTargetPath': join(cwd, 'src/css/main.less'),
-            'configRefTargetPath': join(cwd, 'src/biz/moduleConfig.js')
-        },
-        
-        /*
-         * 控件配置
-         * bizPath 生成控件代码的路径
-         * tplPath 控件的模板所在路径
-         * cssRefTargetPath 控件的css文件需要添加引用的路径
-         * demoPath 控件demo生成的路径
-         * demoRefTargetPath 控件demo导航的引用路径
-         */
-        'control': {
-            'bizPath': join(cwd, 'src/ui'),
-            'tplPath': join(cwd, 'egenConfig/tpl/ui'),
-            'cssRefTargetPath': join(cwd, 'src/ui/css/ui-all.less'),
-            'demoPath': join(cwd, 'test/ui/demo'),
-            'demoRefTargetPath': join(cwd, 'test/ui/demo/index_nav.html')
-        }
-    };
+var path = require('path');
+var cwd = process.cwd();
+var join = path.join;
+var config = {
     
-    module.exports = exports = config;
+    /*
+     * 用户信息配置
+     * userName 用户姓名
+     * email 用户邮箱
+     */
+    'userInfo': {
+        "userName": "yaofeifei",
+        "email": "yaofeifei@baidu.com"
+    },
+    
+    /*
+     * 模块配置
+     * bizPath 生成模块代码的路径
+     * tplPath 模块的模板所在路径
+     * cssRefTargetPath 模块的css文件需要添加引用的路径
+     * configRefTargetPath 模块的config文件需要添加的引用路径
+     */
+    'module': {
+        'bizPath': join(cwd, 'src/biz'),
+        'tplPath': join(cwd, 'egenConfig/tpl/mod'),
+        'cssRefTargetPath': join(cwd, 'src/css/main.less'),
+        'configRefTargetPath': join(cwd, 'src/biz/moduleConfig.js')
+    },
+    
+    /*
+     * 控件配置
+     * bizPath 生成控件代码的路径
+     * tplPath 控件的模板所在路径
+     * cssRefTargetPath 控件的css文件需要添加引用的路径
+     * demoPath 控件demo生成的路径
+     * demoRefTargetPath 控件demo导航的引用路径
+     */
+    'control': {
+        'bizPath': join(cwd, 'src/ui'),
+        'tplPath': join(cwd, 'egenConfig/tpl/ui'),
+        'cssRefTargetPath': join(cwd, 'src/ui/css/ui-all.less'),
+        'demoPath': join(cwd, 'test/ui/demo'),
+        'demoRefTargetPath': join(cwd, 'test/ui/demo/index_nav.html')
+    }
+};
+
+module.exports = exports = config;
 </pre>
 
 #####模板

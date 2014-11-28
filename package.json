@@ -1,12 +1,12 @@
 {
     "name": "egen",
-    "version": "0.0.4",
+    "version": "0.0.6",
     "contributors": [
         { "name": "yaofeifei", "email": "gzzyyff@gmail.com" }
     ],
     "main": "main.js",
     "repository": "https://github.com/strwind/generator.git",
-    "description": "This is generator about module and control!",
+    "description": "This is a generator of creating the module and the control!",
     "dependencies": {
         "handlebars": "*"
     },
@@ -14,7 +14,9 @@
         "egen": "./bin/egen-cli"
     },
     "keywords": [
-        "generator"
+        "generator",
+        "egen",
+        "gen"
     ],
     "author": "yaofeifei",
     "license": "MTC"

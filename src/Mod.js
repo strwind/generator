@@ -110,6 +110,17 @@ Mod.prototype = {
     },
     
     /*
+     * 创建一个任务的文件
+     * @param {string} taskName 任务名
+     * @param {Function=} callback 回调函数
+     * @public
+     */
+    addTask: function (taskName, callback) {
+        this.addJs(taskName);
+        this.addHtml(taskName);
+    },
+    
+    /*
      * 创建一个文件 
      * @param {string} filename 文件名称
      * @param {string} tplname 模板名称

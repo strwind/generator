@@ -1,81 +1,105 @@
-var tip = require('./tip');
-/**
- * 命令的统一入口
- * @param {Array} args
- */
-function receive(args){
-	var argArr = parseArg(args);
-	if(!argArr){
-		return;
-	}
-	var cmd = argArr[0].original;
-	argArr.shift();
-	switch(cmd){
-		case 'addmod':{
-
-			break;
-		};
-		case 'addfile':{
-
-			break;
-		};
-	}
-
-}
 
 /**
- * 解析命令和参数
- *
+ * @file 处理业务命令
+ * @author yaofeifei(yaofeifei@baidu.com）
+ * @date 2014-10-30 
  */
-function parseArg(args){
-	var strs = args.split(/\s+/);
-	if(strs[0] !== 'gene'){
-		console.log(tip.help);
-		return false;
-	}
 
-	strs.shift();
+var util = require('./util');
+var Mod = require('./Mod.js');
+var Control = require('./Control.js');
 
-	var argArr = [];
-	strs.forEach(function(str){
-		var arr = str.split(':');
-		if(arr.length === 2){
-			argArr.push({
-				key: arr[0],
-				value: arr[1],
-				original: str
-			});
-		} else if(arr.length === 1){
-			argArr.push({
-				original: str
-			});
-		}
-	});
-	return argArr;
-}
-
-/**
- * 添加整个模块
- */
-function addMod(){
-
-}
-/**
- * 批量添加文件
- * @param {Array} paths
- */
-function addFiles(paths){
-
-}
-
-/**
- * 添加单个文件 
- * @param {String} path
- */
-function addFile(path){
-
-}
-
-module.exports = {
-	receive: receive
+var command = {
+    
+    init: function (args) {
+        this.commandList = ['addtask', 'addjs', 'addconfig', 'addcss', 'addhtml', 'adddemo'];
+        var mainCommand = args[0].toLowerCase();
+        //为了区别大小写， 参数需要在命令行输入时用引号包起来
+        this.subCommand = util.clearQuotes(args[1]);
+        this.arg1 = util.clearQuotes(args[2]); 
+        this.arg2 = util.clearQuotes(args[3]);
+        
+        if (!this.subCommand) {
+            console.log('请输入模块名称(控件名称)或子命令!');
+            process.exit();
+        }
+        
+        if (mainCommand === 'mod') {
+            this.modExec();
+        }
+        else if (mainCommand === 'ui') {
+            this.uiExec();
+        }
+    },
+    
+    /**
+     * 模块命令路由
+     * 生成整个模块 [主命令] [模块名]
+     * mod 'hello'
+     * 生成单个文件  [主命令] [子命令] [模块名] [任务名=]
+     * mod addjs 'hello' 'form'
+     */
+    modExec: function () {
+        var subCommand = this.subCommand;
+        var moduleName = this.arg1;
+        var taskName = this.arg2;
+        if (this.commandList.indexOf(subCommand) === -1) {
+            moduleName = subCommand;
+        }
+        var mod = new Mod(moduleName);
+        switch (subCommand) {
+            case 'addtask':
+                mod.addTask(taskName);
+            case 'addjs':
+                mod.addJs(taskName);
+                break;
+                break;
+            case 'addcss':
+                mod.addCss();
+                break;
+            case 'addhtml':
+                mod.addHtml(taskName);
+                break;
+            case 'addconfig':
+                mod.addConfig();
+            default:
+                mod.init();
+        }
+    },
+    
+    /**
+     * 控件命令路由
+     * 生成整个完整控件 [主命令] [控件名] [控件父类名=]
+     * ui 'Computer' 'InputControl'
+     * 生成单个文件[主命令] [子命令] [控件名] [控件父类名=]
+     * ui addjs 'Computer' 'InputControl'
+     */
+    uiExec: function () {
+        var subCommand = this.subCommand;
+        var ctrName = this.arg1;
+        var ctrSupName = this.arg2;
+        if (this.commandList.indexOf(subCommand) === -1) {
+            ctrName = subCommand;
+            ctrSupName = arg1;
+        }
+        var control = new Control(ctrName, ctrSupName);
+        switch (subCommand) {
+            case 'addjs':
+                control.addJs();
+                break;
+            case 'addcss':
+                control.addCss();
+                break;
+            case 'addhtml':
+                control.addHtml();
+                break;
+            case 'adddemo':
+                control.addDemo();
+                break;
+            default:
+                control.init();
+        }
+    }
 };
+
+module.exports = exports = command;
