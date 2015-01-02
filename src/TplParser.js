@@ -4,15 +4,18 @@
  * @author yaofeifei(yaofeifei@baidu.com）
  * @date 2014-10-30 
  */
-var handlebars = require('handlebars');
+var etpl = require('etpl');
 
-function TplParser () {
-    
-}
+etpl.config({
+    commandOpen: '<%',
+    commandClose: '%>'
+});
+
+function TplParser () {}
 
 TplParser.prototype = {
     compile: function (source, data) {
-        var template = handlebars.compile(source);
+        var template = etpl.compile(source);
         return template(data);
     }
 };
