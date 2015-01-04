@@ -20,9 +20,11 @@ function Mod(modName) {
     this.modName = modName;
     this.bizPath = modCfg.bizPath;
     this.tplPath = modCfg.tplPath;
+    this.mockupPath = modCfg.mockupPath;
     this.modPath = path.join(this.bizPath, modName);
     this.modCssPath = path.join(this.modPath, '/css');
     this.modHtmlPath = path.join(this.modPath, '/tpl');
+    this.modMockupPath = path.join(this.mockupPath, modName);
     this.configRefTargetPath = modCfg.configRefTargetPath;
     this.cssRefTargetPath = modCfg.cssRefTargetPath;
     this.taskList = cfgMgr.defaultModTaskList;
@@ -46,6 +48,7 @@ Mod.prototype = {
         me.addCss(function () {
             me.addCssRef();
         });
+        me.addMockup('list');
     },
     
     /*
@@ -105,6 +108,21 @@ Mod.prototype = {
         var filename = taskName + '.tpl.html';
         var tplname = taskName + '.html';
         var fileLocation = path.join(this.modHtmlPath, filename);
+        var tplLocation = path.join(this.tplPath, tplname);
+        this.genFile(taskName, fileLocation, tplLocation, callback);
+    },
+    
+    /*
+     * 创建一个mockup文件 
+     * @param {string} taskName 任务名
+     * @param {Function=} callback 回调函数
+     * @public
+     */
+    addMockup: function (taskName, callback) {
+        fileOpr.insureDir(this.modMockupPath);
+        var filename = 'list.json';
+        var tplname = 'list.json';
+        var fileLocation = path.join(this.modMockupPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(taskName, fileLocation, tplLocation, callback);
     },

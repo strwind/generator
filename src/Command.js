@@ -80,7 +80,7 @@ var command = {
         var ctrSupName = this.arg2;
         if (this.commandList.indexOf(subCommand) === -1) {
             ctrName = subCommand;
-            ctrSupName = arg1;
+            ctrSupName = this.arg1;
         }
         var control = new Control(ctrName, ctrSupName);
         switch (subCommand) {

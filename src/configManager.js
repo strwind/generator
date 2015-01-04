@@ -93,7 +93,7 @@ var configManager = {
             'ctrName': ctrName,
             'className': ctrName,
             'superClassName': ctrSupName || 'Control',
-            'viewName': ctrName,
+            'viewName': 'UI' + ctrName,
             'type': ctrName.toLowerCase(), 
             'cssFileName': 'ui-' + ctrName.toLowerCase(),
             'demoFileName': 'ui.' + ctrName

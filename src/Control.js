@@ -53,7 +53,7 @@ Control.prototype = {
     addJs: function (callback) {
         fileOpr.insureDir(this.bizPath);
         var filename = this.task.className + '.js';
-        var tplname = 'XControl.js';
+        var tplname = 'control.js';
         var fileLocation = path.join(this.bizPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(fileLocation, tplLocation, callback);
@@ -68,7 +68,7 @@ Control.prototype = {
         fileOpr.insureDir(this.bizPath);
         fileOpr.insureDir(this.ctrCssPath);
         var filename = this.task.cssFileName + '.less';
-        var tplname = 'XControl.less';
+        var tplname = 'control.less';
         var fileLocation = path.join(this.ctrCssPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(fileLocation, tplLocation, callback);
@@ -83,7 +83,7 @@ Control.prototype = {
         fileOpr.insureDir(this.bizPath);
         fileOpr.insureDir(this.ctrHtmlPath);
         var filename = this.task.className + '.html';
-        var tplname = 'XControl.html';
+        var tplname = 'control.html';
         var fileLocation = path.join(this.ctrHtmlPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(fileLocation, tplLocation, callback);
@@ -97,7 +97,7 @@ Control.prototype = {
     addDemo: function (callback) {
         fileOpr.insureDir(this.demoPath);
         var filename = this.task.demoFileName + '.html';
-        var tplname = 'ui.XControl.html';
+        var tplname = 'ui.control.html';
         var fileLocation = path.join(this.demoPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(fileLocation, tplLocation, callback);
