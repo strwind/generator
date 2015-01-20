@@ -40,6 +40,7 @@
 </ol>
 
 ###工具配置
+<p>**配置示例：** <code>https://github.com/strwind/egenConfig</code></P>
 工具的配置文件在项目的根目录下**egenConfig**文件夹下面, 这个文件夹下需要自己去和写配置文件和模板文件
 <ul>
     <li>config.js  ———模块配置文件</li>
