@@ -18,13 +18,13 @@ var pathRef = new PathRef();
  * @param {string=} ctrSupName 控件父类名称
  */
 function Control(ctrName, ctrSupName) {
-    this.bizPath = ctrCfg.bizPath;
+    this.targetPath = ctrCfg.targetPath;
     this.tplPath = ctrCfg.tplPath;
     this.demoPath = ctrCfg.demoPath;
     this.cssRefTargetPath = ctrCfg.cssRefTargetPath;
     this.demoRefTargetPath = ctrCfg.demoRefTargetPath;
-    this.ctrCssPath = path.join(this.bizPath, '/css');
-    this.ctrHtmlPath = path.join(this.bizPath, '/tpl');
+    this.ctrCssPath = path.join(this.targetPath, '/css');
+    this.ctrHtmlPath = path.join(this.targetPath, '/tpl');
     this.task = cfgMgr.getCtrTask(ctrName, ctrSupName);
 }
 
@@ -38,10 +38,10 @@ Control.prototype = {
         me.addJs();
         me.addHtml();
         me.addCss(function () {
-            me.addCssRef();
+           ctrCfg.hasCssRef && me.addCssRef();
         });
-        me.addDemo(function () {
-            me.addDemoRef();
+        ctrCfg.hasDemo && me.addDemo(function () {
+            ctrCfg.hasDemoRef && me.addDemoRef();
         });
     },
     
@@ -51,10 +51,10 @@ Control.prototype = {
      * @public
      */
     addJs: function (callback) {
-        fileOpr.insureDir(this.bizPath);
+        fileOpr.insureDir(this.targetPath);
         var filename = this.task.className + '.js';
         var tplname = 'control.js';
-        var fileLocation = path.join(this.bizPath, filename);
+        var fileLocation = path.join(this.targetPath, filename);
         var tplLocation = path.join(this.tplPath, tplname);
         this.genFile(fileLocation, tplLocation, callback);
     },
@@ -65,7 +65,7 @@ Control.prototype = {
      * @public
      */
     addCss: function (callback) {
-        fileOpr.insureDir(this.bizPath);
+        fileOpr.insureDir(this.targetPath);
         fileOpr.insureDir(this.ctrCssPath);
         var filename = this.task.cssFileName + '.less';
         var tplname = 'control.less';
@@ -80,7 +80,7 @@ Control.prototype = {
      * @public
      */
     addHtml: function (callback) {
-        fileOpr.insureDir(this.bizPath);
+        fileOpr.insureDir(this.targetPath);
         fileOpr.insureDir(this.ctrHtmlPath);
         var filename = this.task.className + '.html';
         var tplname = 'control.html';

@@ -9,8 +9,6 @@
  *
  * @param {Array} args 参数列表
  */
-var Command = require('./src/Command');
-
 exports.parse = function (args) {
     args = args.slice(2);
 
@@ -26,9 +24,12 @@ exports.parse = function (args) {
         help.dumpVersion();
         return;
     }
+    //检查配置和运行环境
+    //FIXME 为了保证require运行时加载，所以用的时候才require
+    require('./src/check').init(args);
     
     //业务命令处理入口
-    Command.init(args);
+    require('./src/command').init(args);
 };
 
 if (module === require.main) {

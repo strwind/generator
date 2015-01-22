@@ -18,10 +18,10 @@ var pathRef = new PathRef();
  */
 function Mod(modName) {
     this.modName = modName;
-    this.bizPath = modCfg.bizPath;
+    this.targetPath = modCfg.targetPath;
     this.tplPath = modCfg.tplPath;
     this.mockupPath = modCfg.mockupPath;
-    this.modPath = path.join(this.bizPath, modName);
+    this.modPath = path.join(this.targetPath, modName);
     this.modCssPath = path.join(this.modPath, '/css');
     this.modHtmlPath = path.join(this.modPath, '/tpl');
     this.modMockupPath = path.join(this.mockupPath, modName);
@@ -43,12 +43,12 @@ Mod.prototype = {
             me.addHtml(taskName);
         });
         me.addConfig(function () {
-            me.addCfgRef();
+            modCfg.hasConfigRef && me.addCfgRef();
         });
         me.addCss(function () {
-            me.addCssRef();
+            modCfg.hasCssRef && me.addCssRef();
         });
-        me.addMockup('list');
+        modCfg.hasMockup && me.addMockup('list');
     },
     
     /*

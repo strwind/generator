@@ -6,11 +6,14 @@
  */
 
 var util = require('./util');
-var Mod = require('./Mod.js');
-var Control = require('./Control.js');
-
+var Mod = require('./Mod');
+var Control = require('./Control');
 var command = {
     
+    /**
+     * 业务命令模块运行入口
+     * @param {Array} args 命令数组
+     */
     init: function (args) {
         this.commandList = ['addtask', 'addjs', 'addconfig', 'addcss', 'addhtml', 'adddemo'];
         var mainCommand = args[0].toLowerCase();
